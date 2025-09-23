@@ -18,7 +18,7 @@ void commands_init(void)
 void commands_process(void)
 {
     char command[COMMAND_MAX_LENGTH];
-    char action[10];
+    char action[ACTION_MAX_LENGTH];
 
     printf("Enter command: ");
     scanf("%19s", command);

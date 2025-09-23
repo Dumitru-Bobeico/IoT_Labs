@@ -3,7 +3,9 @@
 
 #include <Arduino.h>
 
-#define COMMAND_MAX_LENGTH      20
+#define COMMAND_MAX_LENGTH      10
+
+#define ACTION_MAX_LENGTH       10
 
 #define LED_PIN                 13
 
