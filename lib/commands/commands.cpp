@@ -12,7 +12,6 @@ void commands_init(void)
 
     stdio_init();
 
-    printf("Type 'led on' or 'led off'\r\n");
 }
 
 void commands_process(void)
