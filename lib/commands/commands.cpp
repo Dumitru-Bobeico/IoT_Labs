@@ -3,51 +3,57 @@
 #include "dd_stdio.h"
 #include "configs.h"
 #include <stdio.h>
+#include <string.h>
 
 void commands_init(void)
 {
-    led_init();
-    Serial.begin(SERIAL_BAUD);
-    while (!Serial);
-
+    leds_init();
     stdio_init();
-
 }
 
-void commands_process(void)
+void commands_check_pin()
 {
-    char command[COMMAND_MAX_LENGTH];
-    char action[ACTION_MAX_LENGTH];
+    char pin[5];
+    int index = 0;
+    char key;
 
-    printf("Enter command: ");
-    scanf("%19s", command);
+    lcd.clear();
+    printf("Enter PIN: ");
 
-    if (strcmp(command, "led") == 0)
+    while (1)
     {
-        scanf("%9s", action);
-
-        if (strcmp(action, "on") == 0)
+        key = getchar();
+        if (key != NO_KEY)
         {
-            led_on();
-            printf("LED turned on\r\n");
+            if (key == '#')
+            {
+                pin[index] = '\0';
+                break;
+            }
+            else if (index < 4 && key >= '0' && key <= '9')
+            {
+                pin[index++] = key;
+                printf("*");
+            }
         }
-        else if (strcmp(action, "off") == 0)
-        {
-            led_off();
-            printf("LED turned off\r\n");
-        }
-        else if (strcmp(action, "blink") == 0)
-        {
-            led_blink();
-            printf("LED is blinking\r\n");
-        }
-        else
-        {
-            printf("Unknown action: %s\r\n", action);
-        }
-
-        return;
     }
 
-    printf("Unknown command: %s\r\n", command);
+    lcd.clear();
+    if (strcmp(pin, "1234") == 0)
+    {
+        green_led_on();
+        red_led_off();
+        printf("Correct");
+    }
+    else
+    {
+        red_led_on();
+        green_led_off();
+        printf("Wrong");
+    }
+
+    delay(3000);
+    green_led_off();
+    red_led_off();
+    lcd.clear();
 }

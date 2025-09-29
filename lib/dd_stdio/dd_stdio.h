@@ -11,4 +11,6 @@
 
 void stdio_init();
 
+extern LiquidCrystal_I2C lcd;
+
 #endif

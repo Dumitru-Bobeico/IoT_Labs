@@ -6,5 +6,7 @@
 
 void commands_init();
 void commands_process();
+void commands_process();
+void commands_check_pin();
 
 #endif

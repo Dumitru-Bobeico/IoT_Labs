@@ -29,4 +29,7 @@ enum KEYPAD_KEYS {
     KEYPAD_PIN_8 = 37
 };
 
+#define RED_LED_PIN             54
+#define GREEN_LED_PIN           57
+
 #endif

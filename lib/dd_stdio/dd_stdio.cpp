@@ -4,8 +4,6 @@ static FILE serial_stdout;
 
 LiquidCrystal_I2C lcd(I2C_DISPLAY_ADDRESS, I2C_DISPLAY_COLUMNS, I2C_DISPLAY_ROWS);
 
-const byte ROWS = 4; //four rows
-const byte COLS = 3; //three columns
 char keys[KEYPAD_ROWS][KEYPAD_COLS] = 
 {
     {'1','2','3', 'A'},
@@ -13,8 +11,8 @@ char keys[KEYPAD_ROWS][KEYPAD_COLS] =
     {'7','8','9', 'C'},
     {'*','0','#', 'D'}
 };
-byte rowPins[KEYPAD_ROWS] = {KEYPAD_PIN_1, KEYPAD_PIN_2, KEYPAD_PIN_3, KEYPAD_PIN_4}; //connect to the row pinouts of the kpd
-byte colPins[KEYPAD_COLS] = {KEYPAD_PIN_5, KEYPAD_PIN_6, KEYPAD_PIN_7, KEYPAD_PIN_8}; //connect to the column pinouts of the kpd
+byte rowPins[KEYPAD_ROWS] = {KEYPAD_PIN_1, KEYPAD_PIN_2, KEYPAD_PIN_3, KEYPAD_PIN_4};
+byte colPins[KEYPAD_COLS] = {KEYPAD_PIN_5, KEYPAD_PIN_6, KEYPAD_PIN_7, KEYPAD_PIN_8};
 
 Keypad kpd = Keypad( makeKeymap(keys), rowPins, colPins, KEYPAD_ROWS, KEYPAD_COLS );
 
