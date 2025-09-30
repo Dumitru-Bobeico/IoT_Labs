@@ -9,7 +9,7 @@
 
 #define LED_PIN                 13
 
-#define SERIAL_BAUD         115200
+#define SERIAL_BAUD             115200
 
 #define I2C_DISPLAY_ADDRESS     0x27
 #define I2C_DISPLAY_COLUMNS     16
@@ -31,5 +31,6 @@ enum KEYPAD_KEYS {
 
 #define RED_LED_PIN             54
 #define GREEN_LED_PIN           57
+#define ACCESS_PIN              "1234"
 
 #endif

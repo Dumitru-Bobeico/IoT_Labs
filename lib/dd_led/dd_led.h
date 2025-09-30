@@ -3,16 +3,10 @@
 
 #include <Arduino.h>
 
-void led_init();
+void led_init_pin(int pin);
 
-void led_on();
-void led_off();
-void led_blink();
+void led_set(int pin, bool state);
 
-void leds_init();
-void green_led_on();
-void green_led_off();
-void red_led_on();
-void red_led_off();
+void led_toggle(int pin);
 
 #endif

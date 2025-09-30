@@ -7,7 +7,9 @@
 
 void commands_init(void)
 {
-    leds_init();
+    led_init_pin(GREEN_LED_PIN);
+    led_init_pin(RED_LED_PIN);
+
     stdio_init();
 }
 
@@ -39,21 +41,22 @@ void commands_check_pin()
     }
 
     lcd.clear();
-    if (strcmp(pin, "1234") == 0)
+    if (strcmp(pin, ACCESS_PIN) == 0)
     {
-        green_led_on();
-        red_led_off();
+        led_set(GREEN_LED_PIN, true);
+        led_set(RED_LED_PIN, false);
         printf("Correct");
     }
     else
     {
-        red_led_on();
-        green_led_off();
+        led_set(RED_LED_PIN, true);
+        led_set(GREEN_LED_PIN, false);
         printf("Wrong");
     }
 
     delay(3000);
-    green_led_off();
-    red_led_off();
+
+    led_set(GREEN_LED_PIN, false);
+    led_set(RED_LED_PIN, false);
     lcd.clear();
 }
