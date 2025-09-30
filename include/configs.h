@@ -33,4 +33,22 @@ enum KEYPAD_KEYS {
 #define GREEN_LED_PIN           57
 #define ACCESS_PIN              "1234"
 
+#define FIRST_LED               13
+#define SECOND_LED              12
+#define ON_OFF_BUTTON_PIN       10
+#define UP_BUTTON_PIN           9
+#define DOWN_BUTTON_PIN         8  
+#define DEBOUNCE_TIME_MS        200
+
+#define SECOND_LED_BASE_FREQUENCY_MS 1
+#define SECOND_LED_FREQUENCY_STEP_MS 1
+#define FIRST_TASK_OFFSET_MS        1
+#define FIRST_TASK_RECCURENCE_MS    10
+
+#define SECOND_TASK_OFFSET_MS   5
+#define SECOND_TASK_RECCURENCE_MS   10
+
+#define THIRD_TASK_OFFSET_MS    10
+#define THIRD_TASK_RECCURENCE_MS    50
+
 #endif

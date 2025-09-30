@@ -1,12 +1,12 @@
 #include <Arduino.h>
-#include "commands.h"
+#include <tasks.h>
 
 void setup()
 {
-    commands_init();
+    tasks_init();
 }
 
 void loop()
 {
-    commands_check_pin();
+    idle_task();
 }
