@@ -7,9 +7,9 @@
 #include <configs.h>
 
 void tasks_init();
-void first_task(void *pvParameters);
-void second_task(void *pvParameters);
-void third_task(void *pvParameters);
+void first_task(void);
+void second_task(void);
+void third_task(void);
 void idle_task(void);
 
 void timer_handle_interrupts(int timer);
