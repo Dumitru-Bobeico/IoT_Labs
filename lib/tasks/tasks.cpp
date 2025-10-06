@@ -23,9 +23,7 @@ void tasks_init(void) {
 void idle_task(void) {
     uint32_t now = millis();
     if (now - g_idle_last_report >= 500) {
-        printf("First LED: %s | Second LED freq: %u Hz\r\n",
-               g_first_led_state == HIGH ? "ON" : "OFF",
-               g_second_led_frequency);
+        printf("First LED: %s | Second LED freq: %u Hz\r\n", g_first_led_state == HIGH ? "ON" : "OFF", g_second_led_frequency);
         g_idle_last_report = now;
     }
 }
@@ -42,7 +40,7 @@ void first_task(void) {
 void second_task(void) {
     if (g_first_led_state == LOW) {
         if (g_second_led_frequency < 1) g_second_led_frequency = 1;
-        uint32_t half_period = 1000UL / (g_second_led_frequency * 2UL);
+        uint32_t half_period = 1000 / (g_second_led_frequency * 2);
         uint32_t now = millis();
 
         if (now - g_second_last_toggle >= half_period) {
@@ -59,7 +57,7 @@ void second_task(void) {
 
 void third_task(void) {
     if (is_button_pressed(UP_BUTTON_PIN) && millis() > g_third_next_check_time) {
-        if (g_second_led_frequency < 255) g_second_led_frequency++;
+        g_second_led_frequency++;
         g_third_next_check_time = millis() + DEBOUNCE_TIME_MS;
     }
 
