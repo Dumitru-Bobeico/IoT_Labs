@@ -72,7 +72,8 @@ void third_task(void) {
 void timer_handle_interrupts(int timer) {
     g_tick++;
 
-    if (g_tick % FIRST_TASK_RECCURENCE_MS == 0) first_task();
-    if (g_tick % SECOND_TASK_RECCURENCE_MS == 0) second_task();
-    if (g_tick % THIRD_TASK_RECCURENCE_MS == 0) third_task();
+    if (g_tick % FIRST_TASK_RECCURENCE_MS == FIRST_TASK_OFFSET_MS) first_task();
+    if (g_tick % SECOND_TASK_RECCURENCE_MS == SECOND_TASK_OFFSET_MS) second_task();
+    if (g_tick % THIRD_TASK_RECCURENCE_MS == THIRD_TASK_OFFSET_MS) third_task();
 }
+
