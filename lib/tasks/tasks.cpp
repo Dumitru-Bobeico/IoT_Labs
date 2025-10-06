@@ -3,6 +3,14 @@
 uint8_t g_first_led_state = LOW;
 uint16_t g_second_led_frequency = 1;
 
+uint32_t g_idle_last_report = 0;
+uint32_t g_first_next_check_time = 0;
+uint32_t g_second_last_toggle = 0;
+uint8_t  g_second_led_state = LOW;
+uint32_t g_third_next_check_time = 0;
+uint32_t g_tick = 0;
+
+
 void tasks_init(void) {
     timer_init_ISR_1KHz(TIMER_DEFAULT);
     pinMode(FIRST_LED, OUTPUT);
@@ -13,65 +21,58 @@ void tasks_init(void) {
 }
 
 void idle_task(void) {
-    static uint32_t last_report = 0;
     uint32_t now = millis();
-
-    if (now - last_report >= 500) {
+    if (now - g_idle_last_report >= 500) {
         printf("First LED: %s | Second LED freq: %u Hz\r\n",
                g_first_led_state == HIGH ? "ON" : "OFF",
                g_second_led_frequency);
-        last_report = now;
+        g_idle_last_report = now;
     }
 }
 
 void first_task(void) {
-    static uint32_t next_check_time = 0;
-
-    if (is_button_pressed(ON_OFF_BUTTON_PIN) && millis() > next_check_time) {
+    if (is_button_pressed(ON_OFF_BUTTON_PIN) && millis() > g_first_next_check_time) {
         g_first_led_state = !g_first_led_state;
         digitalWrite(FIRST_LED, g_first_led_state);
-        next_check_time = millis() + DEBOUNCE_TIME_MS;
+        g_first_next_check_time = millis() + DEBOUNCE_TIME_MS;
     }
 }
 
-void second_task(void) {
-    static uint32_t last_toggle = 0;
-    static uint8_t led_state = LOW;
 
+void second_task(void) {
     if (g_first_led_state == LOW) {
         if (g_second_led_frequency < 1) g_second_led_frequency = 1;
         uint32_t half_period = 1000UL / (g_second_led_frequency * 2UL);
         uint32_t now = millis();
 
-        if (now - last_toggle >= half_period) {
-            led_state = !led_state;
-            digitalWrite(SECOND_LED, led_state);
-            last_toggle = now;
+        if (now - g_second_last_toggle >= half_period) {
+            g_second_led_state = !g_second_led_state;
+            digitalWrite(SECOND_LED, g_second_led_state);
+            g_second_last_toggle = now;
         }
     } else {
+        g_second_led_state = LOW;
         digitalWrite(SECOND_LED, LOW);
     }
 }
 
-void third_task(void) {
-    static uint32_t next_check_time = 0;
 
-    if (is_button_pressed(UP_BUTTON_PIN) && millis() > next_check_time) {
+void third_task(void) {
+    if (is_button_pressed(UP_BUTTON_PIN) && millis() > g_third_next_check_time) {
         if (g_second_led_frequency < 255) g_second_led_frequency++;
-        next_check_time = millis() + DEBOUNCE_TIME_MS;
+        g_third_next_check_time = millis() + DEBOUNCE_TIME_MS;
     }
 
-    if (is_button_pressed(DOWN_BUTTON_PIN) && millis() > next_check_time) {
+    if (is_button_pressed(DOWN_BUTTON_PIN) && millis() > g_third_next_check_time) {
         if (g_second_led_frequency > 1) g_second_led_frequency--;
-        next_check_time = millis() + DEBOUNCE_TIME_MS;
+        g_third_next_check_time = millis() + DEBOUNCE_TIME_MS;
     }
 }
 
 void timer_handle_interrupts(int timer) {
-    static uint32_t tick = 0;
-    tick++;
+    g_tick++;
 
-    if (tick % FIRST_TASK_RECCURENCE_MS == 0) first_task();
-    if (tick % SECOND_TASK_RECCURENCE_MS == 0) second_task();
-    if (tick % THIRD_TASK_RECCURENCE_MS == 0) third_task();
+    if (g_tick % FIRST_TASK_RECCURENCE_MS == 0) first_task();
+    if (g_tick % SECOND_TASK_RECCURENCE_MS == 0) second_task();
+    if (g_tick % THIRD_TASK_RECCURENCE_MS == 0) third_task();
 }
