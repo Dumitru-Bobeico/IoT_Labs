@@ -4,7 +4,7 @@
 #include "button_control.h"
 
 uint8_t g_first_led_state = LOW;
-uint16_t g_second_led_frequency = 1;
+uint8_t g_second_led_frequency = 1;
 
 uint32_t g_idle_last_report = 0;
 uint32_t g_first_next_check_time = 0;

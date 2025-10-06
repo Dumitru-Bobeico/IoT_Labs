@@ -6,7 +6,7 @@
 #include "button_control.h"
 #include <configs.h>
 
-void tasks_init();
+void tasks_init(void);
 void first_task(void);
 void second_task(void);
 void third_task(void);
