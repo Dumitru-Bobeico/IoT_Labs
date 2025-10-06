@@ -12,4 +12,6 @@ void second_task(void *pvParameters);
 void third_task(void *pvParameters);
 void idle_task(void);
 
+void timer_handle_interrupts(int timer);
+
 #endif
