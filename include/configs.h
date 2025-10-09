@@ -9,7 +9,7 @@
 #define UP_BUTTON_PIN               9
 #define DOWN_BUTTON_PIN             8  
 
-#define DEBOUNCE_TIME_MS            200
+#define DEBOUNCE_TIME_MS            500
 #define FIRST_TASK_OFFSET_MS        1
 #define FIRST_TASK_RECCURENCE_MS    10
 #define SECOND_TASK_OFFSET_MS       5
