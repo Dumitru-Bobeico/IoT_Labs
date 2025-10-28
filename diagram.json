@@ -6,130 +6,59 @@
     {
       "type": "wokwi-arduino-mega",
       "id": "mega",
-      "top": 27.2,
-      "left": -185,
+      "top": -20.8,
+      "left": -117.8,
       "rotate": 90,
       "attrs": {}
     },
     {
-      "type": "wokwi-led",
-      "id": "led1",
-      "top": -70.8,
-      "left": 282.2,
-      "attrs": {
-        "color": "red"
-      }
-    },
-    {
-      "type": "wokwi-led",
-      "id": "led2",
-      "top": 92.4,
-      "left": 339.8,
-      "attrs": {
-        "color": "green"
-      }
-    },
-    {
-      "type": "wokwi-resistor",
-      "id": "r1",
-      "top": 3.95,
-      "left": 211.2,
-      "attrs": {
-        "value": "1000"
-      }
-    },
-    {
-      "type": "wokwi-resistor",
-      "id": "r2",
-      "top": 90.35,
-      "left": 211.2,
-      "attrs": {
-        "value": "1000"
-      }
-    },
-    {
-      "type": "wokwi-pushbutton",
-      "id": "btn1",
-      "top": 198.2,
-      "left": 163.2,
-      "attrs": {
-        "color": "green",
-        "xray": "1"
-      }
+      "type": "wokwi-analog-joystick",
+      "id": "joystick1",
+      "top": -96.6,
+      "left": 255,
+      "attrs": {}
     }
   ],
   "connections": [
     [
-      "r1:2",
-      "led1:A",
-      "green",
+      "joystick1:GND",
+      "mega:GND.2",
+      "black",
       [
-        "v0",
-        "h46.8"
+        "v0"
       ]
     ],
     [
-      "mega:13",
-      "r1:1",
-      "green",
+      "mega:5V",
+      "joystick1:VCC",
+      "red",
       [
         "h0"
       ]
     ],
     [
-      "mega:GND.1",
-      "led1:C",
-      "black",
-      [
-        "h144",
-        "v-0.2"
-      ]
-    ],
-    [
-      "mega:GND.1",
-      "led2:C",
-      "black",
-      [
-        "h192",
-        "v38.2"
-      ]
-    ],
-    [
-      "mega:12",
-      "r2:1",
+      "joystick1:SEL",
+      "mega:A2",
       "green",
       [
-        "h0"
+        "v0"
       ]
     ],
     [
-      "r2:2",
-      "led2:A",
+      "joystick1:HORZ",
+      "mega:A1",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "joystick1:VERT",
+      "mega:A0",
       "green",
       [
         "v67.2",
-        "h66"
-      ]
-    ],
-    [
-      "mega:GND.5",
-      "btn1:2.r",
-      "black",
-      [
-        "h-68.15",
-        "v151",
-        "h537.6",
-        "v-230.4",
-        "h-9.6"
-      ]
-    ],
-    [
-      "mega:10",
-      "btn1:1.l",
-      "green",
-      [
-        "h28.8",
-        "v95.7"
+        "h-307.2"
       ]
     ]
   ],

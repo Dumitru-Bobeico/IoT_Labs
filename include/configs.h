@@ -19,4 +19,12 @@
 #define LED_OFF_MS                  500
 #define LED_PRESSED_DURATION_MS     1000
 
+#define JOYSTICK_X_PIN             A0
+#define JOYSTICK_Y_PIN             A1
+#define JOYSTICK_BUTTON_PIN        9
+
+#define JOYSTICK_RECCURENCE_MS         50
+
+#define REPORT_RECCURENCE_MS           500
+
 #endif
