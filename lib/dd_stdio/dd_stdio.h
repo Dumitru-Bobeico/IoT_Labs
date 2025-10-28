@@ -1,8 +1,10 @@
 #ifndef DD_STDIO_H
 #define DD_STDIO_H
 
-#include <Arduino.h>
 #include <stdio.h>
+#include <Arduino.h>
+
+#include "configs.h"
 
 void stdio_init();
 

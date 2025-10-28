@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-void button_control_init(uint8_t pin);
-uint8_t is_button_pressed(uint8_t pin);
+void button_control_init(const uint8_t pin);
+uint8_t is_button_pressed(const uint8_t pin);
 
 #endif
