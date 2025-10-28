@@ -10,8 +10,9 @@
 
 // --- Global resources ---
 SemaphoreHandle_t xButtonSemaphore;
+SemaphoreHandle_t xMutex;        // Mutex to protect N
 QueueHandle_t xBufferQueue;
-int N = 0;
+int N = 0;                       // Shared counter
 
 // --- Task prototypes ---
 void vTaskButtonLed(void *pvParameters);
@@ -25,6 +26,9 @@ void vTaskButtonLed(void *pvParameters)
     static unsigned long ledOnTime = 0;
     static bool buttonPrevState = false;
     static unsigned long lastPressTime = 0;
+
+    TickType_t xLastWakeTime = xTaskGetTickCount();
+    const TickType_t xFrequency = pdMS_TO_TICKS(10);  // 10 ms
 
     for (;;)
     {
@@ -50,7 +54,7 @@ void vTaskButtonLed(void *pvParameters)
             ledActive = false;
         }
 
-        vTaskDelay(pdMS_TO_TICKS(BUTTON_TASK_DELAY_MS));
+        xTaskDelayUntil(&xLastWakeTime, xFrequency);
     }
 }
 
@@ -65,28 +69,24 @@ void vTaskSincron(void *pvParameters)
         {
             printf("[Task 2] Semaphore detected\r\n");
 
+            // Protect N with mutex
+            xSemaphoreTake(xMutex, portMAX_DELAY);
             N++;
-            if (N > 50) N = 1; // prevent overflow
+            if (N > 50) N = 1;
+            xSemaphoreGive(xMutex);
 
-            // Fill sequence 1..N
+            // Fill buffer 1..N
             for (int i = 0; i < N; i++)
                 buffer[i] = i + 1;
+            buffer[N] = 0;  // zero terminator
 
-            // Print buffer content
-            printf("[Task 2] Buffer content: ");
-            for (int i = 0; i < N; i++)
-                printf("%d%s", buffer[i], (i < N-1) ? ", " : "\r\n");
-
-            // Add zero terminator
-            buffer[N] = 0;
-
-            // Send to queue
+            // Send to queue using SendToFront
             for (int i = 0; i <= N; i++)
-                xQueueSend(xBufferQueue, &buffer[i], portMAX_DELAY);
+                xQueueSendToFront(xBufferQueue, &buffer[i], portMAX_DELAY);
 
             printf("[Task 2] Queue sent\r\n");
 
-            // Blink LED N times
+            // LED blink: improv behavior
             for (int i = 0; i < N; i++)
             {
                 led_set(SECOND_LED, true);
@@ -105,6 +105,9 @@ void vTaskAsincron(void *pvParameters)
 {
     uint8_t byte;
     static bool newSeries = true;
+
+    TickType_t xLastWakeTime = xTaskGetTickCount();
+    const TickType_t xFrequency = pdMS_TO_TICKS(ASINCRON_TASK_DELAY_MS);
 
     for (;;)
     {
@@ -127,7 +130,7 @@ void vTaskAsincron(void *pvParameters)
             }
         }
 
-        vTaskDelay(pdMS_TO_TICKS(ASINCRON_TASK_DELAY_MS));
+        xTaskDelayUntil(&xLastWakeTime, xFrequency);
     }
 }
 
@@ -138,8 +141,9 @@ void tasks_init()
     led_init_pin(SECOND_LED);
     button_control_init(ON_OFF_BUTTON_PIN);
 
-    // Create semaphore & queue
+    // Create semaphore, mutex & queue
     xButtonSemaphore = xSemaphoreCreateBinary();
+    xMutex = xSemaphoreCreateMutex();
     xBufferQueue = xQueueCreate(64, sizeof(uint8_t));
 
     // Create tasks
