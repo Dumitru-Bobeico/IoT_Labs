@@ -8,18 +8,15 @@
 #include <semphr.h>
 #include <queue.h>
 
-// --- Global resources ---
 SemaphoreHandle_t xButtonSemaphore;
-SemaphoreHandle_t xMutex;        // Mutex to protect N
+SemaphoreHandle_t xMutex;
 QueueHandle_t xBufferQueue;
-int N = 0;                       // Shared counter
+int N = 0;
 
-// --- Task prototypes ---
 void vTaskButtonLed(void *pvParameters);
 void vTaskSincron(void *pvParameters);
 void vTaskAsincron(void *pvParameters);
 
-// --- Task 1: Button + LED ---
 void vTaskButtonLed(void *pvParameters)
 {
     static bool ledActive = false;
@@ -28,13 +25,12 @@ void vTaskButtonLed(void *pvParameters)
     static unsigned long lastPressTime = 0;
 
     TickType_t xLastWakeTime = xTaskGetTickCount();
-    const TickType_t xFrequency = pdMS_TO_TICKS(10);  // 10 ms
+    const TickType_t xFrequency = pdMS_TO_TICKS(10);
 
     for (;;)
     {
         bool pressed = is_button_pressed(ON_OFF_BUTTON_PIN);
 
-        // Debounce 200ms, trigger once per press
         if (pressed && !buttonPrevState && (millis() - lastPressTime > 200))
         {
             lastPressTime = millis();
@@ -58,7 +54,6 @@ void vTaskButtonLed(void *pvParameters)
     }
 }
 
-// --- Task 2: Sincron ---
 void vTaskSincron(void *pvParameters)
 {
     uint8_t buffer[50];
@@ -69,24 +64,20 @@ void vTaskSincron(void *pvParameters)
         {
             printf("[Task 2] Semaphore detected\r\n");
 
-            // Protect N with mutex
             xSemaphoreTake(xMutex, portMAX_DELAY);
             N++;
             if (N > 50) N = 1;
             xSemaphoreGive(xMutex);
 
-            // Fill buffer 1..N
             for (int i = 0; i < N; i++)
                 buffer[i] = i + 1;
-            buffer[N] = 0;  // zero terminator
+            buffer[N] = 0;
 
-            // Send to queue using SendToFront
             for (int i = 0; i <= N; i++)
                 xQueueSendToFront(xBufferQueue, &buffer[i], portMAX_DELAY);
 
             printf("[Task 2] Queue sent\r\n");
 
-            // LED blink: improv behavior
             for (int i = 0; i < N; i++)
             {
                 led_set(SECOND_LED, true);
@@ -100,7 +91,6 @@ void vTaskSincron(void *pvParameters)
     }
 }
 
-// --- Task 3: Asincron ---
 void vTaskAsincron(void *pvParameters)
 {
     uint8_t byte;
@@ -115,7 +105,7 @@ void vTaskAsincron(void *pvParameters)
         {
             if (newSeries)
             {
-                printf("\r\n[Task 3] Serie nouă: ");
+                printf("\r\n[Task 3] Serie noua: ");
                 newSeries = false;
             }
 
@@ -134,19 +124,16 @@ void vTaskAsincron(void *pvParameters)
     }
 }
 
-// --- Task initialization ---
 void tasks_init()
 {
     led_init_pin(FIRST_LED);
     led_init_pin(SECOND_LED);
     button_control_init(ON_OFF_BUTTON_PIN);
 
-    // Create semaphore, mutex & queue
     xButtonSemaphore = xSemaphoreCreateBinary();
     xMutex = xSemaphoreCreateMutex();
     xBufferQueue = xQueueCreate(64, sizeof(uint8_t));
 
-    // Create tasks
     xTaskCreate(vTaskButtonLed, "ButtonLed", 256, NULL, 1, NULL);
     xTaskCreate(vTaskSincron, "Sincron", 256, NULL, 1, NULL);
     xTaskCreate(vTaskAsincron, "Asincron", 256, NULL, 1, NULL);
