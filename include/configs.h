@@ -27,4 +27,6 @@
 
 #define REPORT_RECCURENCE_MS           500
 
+#define NUM_ELEMENTS_MEDIAN_FILTER     5
+
 #endif

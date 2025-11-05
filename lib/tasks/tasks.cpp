@@ -3,6 +3,9 @@
 
 static joystick_t joystick;
 
+static sMedianFilter_t medianFilter;
+static sMedianNode_t medianBuffer(NUM_ELEMENTS_MEDIAN_FILTER);
+
 
 void joystick_task_init(void)
 {
