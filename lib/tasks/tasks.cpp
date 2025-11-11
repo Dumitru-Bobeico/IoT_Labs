@@ -48,7 +48,7 @@ void report_task(void *pvParameters)
             printf("joystick pressed\r\n");
         }
 
-        vTaskDelay(pdMS_TO_TICKS(500));
+        vTaskDelay(pdMS_TO_TICKS(REPORT_RECCURENCE_MS));
     }
 }
 
