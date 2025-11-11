@@ -1,5 +1,6 @@
 #include "joystick.h"
 #include <math.h>
+#include <Arduino.h>
 
 static int8_t convert_to_degree(uint16_t raw_value)
 {
@@ -30,8 +31,8 @@ void joystick_update(joystick_t *joystick)
     joystick->y_raw_data = joystick->read_analog(joystick->y_pin);
     joystick->x_degree = convert_to_degree(joystick->x_raw_data);
     joystick->y_degree = convert_to_degree(joystick->y_raw_data);
-    joystick->is_pressed = joystick->read_button(joystick->button_pin);
-}
+    joystick->is_pressed = (digitalRead(joystick->button_pin) == LOW);
+}   
 
 uint16_t joystick_get_x_raw(joystick_t *joystick)
 {

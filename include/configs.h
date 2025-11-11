@@ -9,7 +9,7 @@
 
 #define JOYSTICK_X_PIN          A0
 #define JOYSTICK_Y_PIN          A1
-#define JOYSTICK_BUTTON_PIN     9
+#define JOYSTICK_BUTTON_PIN     A2
 
 #define SERIAL_BAUD             115200
 

@@ -10,6 +10,7 @@ static joystick_t joystick;
 
 void joystick_task_init(void)
 {
+    button_control_init(JOYSTICK_BUTTON_PIN);
     joystick_init(&joystick,
                   JOYSTICK_X_PIN,
                   JOYSTICK_Y_PIN,
@@ -21,7 +22,7 @@ void joystick_task_init(void)
 void joystick_task(void *pvParameters)
 {
     static uint8_t need_init = true;
-    static TickType_t last_wake_time;
+    TickType_t last_wake_time = xTaskGetTickCount();
 
     if (need_init)
     {
@@ -41,6 +42,11 @@ void report_task(void *pvParameters)
     while (true)
     {
         printf("X: %d, Y: %d\r\n", joystick_get_x_degree(&joystick), joystick_get_y_degree(&joystick));
+
+        if (joystick_is_button_pressed(&joystick))
+        {
+            printf("joystick pressed\r\n");
+        }
 
         vTaskDelay(pdMS_TO_TICKS(500));
     }
