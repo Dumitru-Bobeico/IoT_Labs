@@ -23,6 +23,8 @@ void joystick_init(joystick_t *joystick,
     joystick->button_pin = button_pin;
     joystick->read_analog = read_analog_func;
     joystick->read_button = read_button_func;
+    joystick->is_pressed = 0;
+    joystick->prev_button_state = 0;
 }
 
 void joystick_update(joystick_t *joystick)
@@ -31,7 +33,12 @@ void joystick_update(joystick_t *joystick)
     joystick->y_raw_data = joystick->read_analog(joystick->y_pin);
     joystick->x_degree = convert_to_degree(joystick->x_raw_data);
     joystick->y_degree = convert_to_degree(joystick->y_raw_data);
-    joystick->is_pressed = (digitalRead(joystick->button_pin) == LOW);
+    
+    uint8_t current_button_state = (digitalRead(joystick->button_pin) == LOW);
+    if (current_button_state && !joystick->prev_button_state) {
+        joystick->is_pressed = 1;
+    }
+    joystick->prev_button_state = current_button_state;
 }   
 
 uint16_t joystick_get_x_raw(joystick_t *joystick)
@@ -56,5 +63,9 @@ int8_t joystick_get_y_degree(joystick_t *joystick)
 
 uint8_t joystick_is_button_pressed(joystick_t *joystick)
 {
-    return joystick->is_pressed;
+    if (joystick->is_pressed) {
+        joystick->is_pressed = 0;
+        return 1;
+    }
+    return 0;
 }

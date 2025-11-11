@@ -20,6 +20,7 @@ typedef struct
     int8_t x_degree;
     int8_t y_degree;
     uint8_t is_pressed;
+    uint8_t prev_button_state;
 
     int (*read_analog)(uint8_t pin);
     uint8_t (*read_button)(uint8_t pin);

@@ -39,16 +39,23 @@ void joystick_task(void *pvParameters)
 
 void report_task(void *pvParameters)
 {
+    static TickType_t last_report_time = 0;
+    const TickType_t report_interval = pdMS_TO_TICKS(REPORT_RECCURENCE_MS);
+
     while (true)
     {
-        printf("X: %d, Y: %d\r\n", joystick_get_x_degree(&joystick), joystick_get_y_degree(&joystick));
+        if (xTaskGetTickCount() - last_report_time > report_interval)
+        {
+            printf("X: %d, Y: %d\r\n", joystick_get_x_degree(&joystick), joystick_get_y_degree(&joystick));
+            last_report_time = xTaskGetTickCount();
+        }
 
         if (joystick_is_button_pressed(&joystick))
         {
             printf("joystick pressed\r\n");
         }
 
-        vTaskDelay(pdMS_TO_TICKS(REPORT_RECCURENCE_MS));
+        vTaskDelay(pdMS_TO_TICKS(50)); // Poll for button press every 50ms
     }
 }
 
