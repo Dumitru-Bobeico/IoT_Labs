@@ -6,59 +6,103 @@
     {
       "type": "wokwi-arduino-mega",
       "id": "mega",
-      "top": -20.8,
-      "left": -117.8,
+      "top": -11.2,
+      "left": -21.8,
       "rotate": 90,
       "attrs": {}
     },
     {
-      "type": "wokwi-analog-joystick",
-      "id": "joystick1",
-      "top": -96.6,
-      "left": 255,
+      "type": "wokwi-relay-module",
+      "id": "relay1",
+      "top": -9.4,
+      "left": 364.8,
       "attrs": {}
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led1",
+      "top": -109.2,
+      "left": 522.2,
+      "rotate": 180,
+      "attrs": {
+        "color": "red"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": 282.35,
+      "left": 422.4,
+      "attrs": {
+        "value": "220"
+      }
     }
   ],
   "connections": [
     [
-      "joystick1:GND",
-      "mega:GND.2",
-      "black",
+      "mega:5V",
+      "relay1:VCC",
+      "red",
       [
-        "v0"
+        "h-102.9",
+        "v-218.5",
+        "h326.4",
+        "v115.2",
+        "h-19.2"
       ]
     ],
     [
-      "mega:5V",
-      "joystick1:VCC",
-      "red",
+      "mega:12",
+      "relay1:IN",
+      "green",
       [
         "h0"
       ]
     ],
     [
-      "joystick1:SEL",
-      "mega:A2",
-      "green",
+      "relay1:GND",
+      "mega:GND.1",
+      "black",
       [
-        "v0"
+        "h-86.4",
+        "v-10"
       ]
     ],
     [
-      "joystick1:HORZ",
-      "mega:A1",
+      "relay1:COM",
+      "mega:5V.1",
       "green",
       [
-        "v0"
+        "h49.2",
+        "v8.2"
       ]
     ],
     [
-      "joystick1:VERT",
-      "mega:A0",
+      "relay1:NO",
+      "led1:A",
       "green",
       [
-        "v67.2",
-        "h-307.2"
+        "h30",
+        "v-131.8"
+      ]
+    ],
+    [
+      "r1:2",
+      "led1:C",
+      "green",
+      [
+        "h104.4",
+        "v-38.4",
+        "h-48.4"
+      ]
+    ],
+    [
+      "mega:GND.5",
+      "r1:1",
+      "black",
+      [
+        "h-48.95",
+        "v26.2"
       ]
     ]
   ],
