@@ -55,7 +55,7 @@ void report_task(void *pvParameters)
             printf("joystick pressed\r\n");
         }
 
-        vTaskDelay(pdMS_TO_TICKS(50)); // Poll for button press every 50ms
+        vTaskDelay(pdMS_TO_TICKS(50));
     }
 }
 
