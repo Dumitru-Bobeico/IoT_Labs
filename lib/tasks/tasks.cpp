@@ -1,8 +1,12 @@
+#include <Arduino.h>
+#include <Arduino_FreeRTOS.h>
 #include <task.h>
 #include <dd_stdio.h>
+#include "joystick.h"
+#include "configs.h"
+#include "button_control.h"
 
 static joystick_t joystick;
-
 
 void joystick_task_init(void)
 {
@@ -32,9 +36,19 @@ void joystick_task(void *pvParameters)
     }
 }
 
+void report_task(void *pvParameters)
+{
+    while (true)
+    {
+        printf("X: %d, Y: %d\r\n", joystick_get_x_degree(&joystick), joystick_get_y_degree(&joystick));
+
+        vTaskDelay(pdMS_TO_TICKS(500));
+    }
+}
+
 void report_task_init(void)
 {
-    stdio_init(BAUD_RATE);
+    stdio_init();
 }
 
 void tasks_init()

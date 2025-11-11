@@ -10,5 +10,4 @@ void setup() {
 }
 
 void loop() {
-    idle_task();
 }
