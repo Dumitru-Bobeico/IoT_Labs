@@ -1,4 +1,5 @@
 #include "dd_stdio.h"
+#include <stdio.h>
 
 static FILE serial_stdout;
 

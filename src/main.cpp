@@ -1,14 +1,14 @@
 #include <Arduino.h>
-#include "dd_stdio.h"
 #include "tasks.h"
-#include <configs.h>
 
-void setup() {
-    Serial.begin(SERIAL_BAUD);
-    stdio_init();
+void setup()
+{
+    Serial.begin(BAUDRATE);
     tasks_init();
+    vTaskStartScheduler();
 }
 
-void loop() {
-    idle_task();
+void loop()
+{
+    // Empty: RTOS handles tasks
 }
