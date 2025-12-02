@@ -96,8 +96,9 @@ void report_task_run(void *pvParameters)
         printf("Time: %lu ms\r\n", time_ms);
         printf("Joystick X deg: %d\r\n", joystick_get_x_degree(&joystick));
         printf("Joystick Y deg: %d\r\n", joystick_get_y_degree(&joystick));
-        printf("Joystick X raw: %u\r\n", joystick_get_x_raw(&joystick));
-        printf("Joystick Y raw: %u\r\n", joystick_get_y_raw(&joystick));
+        printf("Joystick X raw: %u (filtered: %d)\r\n", joystick_get_x_raw(&joystick), joystick.filtered_x_raw);
+        printf("Joystick Y raw: %u (filtered: %d)\r\n", joystick_get_y_raw(&joystick), joystick.filtered_y_raw);
+
         printf("Button state  : %s\r\n\r\n", joystick_is_button_pressed(&joystick) ? "Pressed" : "Released");
 
 
