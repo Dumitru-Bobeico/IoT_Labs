@@ -5,9 +5,8 @@
 #include <task.h>
 #include <Arduino.h>
 #include <string.h>
-#include <stdio.h>
 
-// external relay object
+// external relay object from tasks.cpp
 extern relay_t relay;
 
 void command_parser_task(void *pvParameters)
@@ -16,8 +15,6 @@ void command_parser_task(void *pvParameters)
 
     char input[32];
     uint8_t pos = 0;
-
-    printf("> "); fflush(stdout);
 
     while (1)
     {
@@ -28,22 +25,22 @@ void command_parser_task(void *pvParameters)
 
             if (c == '\r' || c == '\n') // command finished
             {
-                input[pos] = '\0';
+                input[pos] = '\0'; // terminate string
                 pos = 0;
 
                 if (strcmp(input, "on") == 0) {
                     relay_set_state(&relay, 1);
-                    printf("\nRelay turned ON\n");
+                    printf("Relay turned ON\n");
                 }
                 else if (strcmp(input, "off") == 0) {
                     relay_set_state(&relay, 0);
-                    printf("\nRelay turned OFF\n");
+                    printf("Relay turned OFF\n");
                 }
                 else if (strcmp(input, "status") == 0) {
-                    printf("\nRelay state: %s\n", relay_get_state(&relay) ? "ON" : "OFF");
+                    printf("Relay state: %s\n", relay_get_state(&relay) ? "ON" : "OFF");
                 }
                 else if (strlen(input) > 0) {
-                    printf("\nUnknown command: %s\n", input);
+                    printf("Unknown command: %s\n", input);
                 }
 
                 printf("> "); fflush(stdout);
