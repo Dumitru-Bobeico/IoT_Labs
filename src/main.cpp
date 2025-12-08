@@ -5,11 +5,7 @@
 
 void setup() {
     Serial.begin(SERIAL_BAUD);
-
-    // enable printf / scanf
-    stdio_init();
-
-    // initialize RTOS tasks
+    stdio_init(); // enable printf/scanf
     tasks_init();
 }
 

@@ -6,10 +6,9 @@
 #define SERIAL_BAUD 115200
 
 // Relay pin
-#define RELAY_PIN 8
+#define RELAY_PIN 12  // changed from 8 to 12
 
 // Task delays
-#define REPORT_TASK_DELAY_MS 1000
-#define CMD_TASK_DELAY_MS    50
+#define CMD_TASK_DELAY_MS 50
 
 #endif
