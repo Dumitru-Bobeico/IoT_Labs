@@ -8,11 +8,13 @@ int my_putchar(char c, FILE* f) {
 }
 
 int my_getchar(FILE* f) {
-    while (!Serial.available());
+    while (!Serial.available());  // wait for a character
     char c = Serial.read();
-    Serial.write(c); // echo
+    Serial.write(c);             // echo back exactly what is typed
     return c;
 }
+
+
 
 void stdio_init() {
     fdev_setup_stream(&serial_stdout, my_putchar, my_getchar, _FDEV_SETUP_RW);

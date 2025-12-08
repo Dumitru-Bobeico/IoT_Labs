@@ -13,49 +13,31 @@ extern relay_t relay;
 void command_parser_task(void *pvParameters)
 {
     (void) pvParameters;
-
     char input[32];
-    uint8_t pos = 0;
-
-    printf("> "); fflush(stdout);
 
     while (1)
     {
-        while (Serial.available())
-        {
-            char c = Serial.read();
-            Serial.write(c); // echo
+        printf("> ");   // print prompt
+        fflush(stdout);
 
-            if (c == '\r' || c == '\n') // command finished
-            {
-                input[pos] = '\0';
-                pos = 0;
+        scanf("%31s", input); // read one word from STDIO (your typed command)
 
-                if (strcmp(input, "on") == 0) {
-                    relay_set_state(&relay, 1);
-                    printf("\nRelay turned ON\n");
-                }
-                else if (strcmp(input, "off") == 0) {
-                    relay_set_state(&relay, 0);
-                    printf("\nRelay turned OFF\n");
-                }
-                else if (strcmp(input, "status") == 0) {
-                    printf("\nRelay state: %s\n", relay_get_state(&relay) ? "ON" : "OFF");
-                }
-                else if (strlen(input) > 0) {
-                    printf("\nUnknown command: %s\n", input);
-                }
-
-                printf("> "); fflush(stdout);
-            }
-            else
-            {
-                if (pos < sizeof(input)-1) {
-                    input[pos++] = c;
-                }
-            }
+        if (strcmp(input, "on") == 0) {
+            relay_set_state(&relay, 1);
+            printf("\nRelay turned ON\n");
+        }
+        else if (strcmp(input, "off") == 0) {
+            relay_set_state(&relay, 0);
+            printf("\nRelay turned OFF\n");
+        }
+        else if (strcmp(input, "status") == 0) {
+            printf("\nRelay state: %s\n", relay_get_state(&relay) ? "ON" : "OFF");
+        }
+        else {
+            printf("\nUnknown command: %s\n", input);
         }
 
         vTaskDelay(pdMS_TO_TICKS(CMD_TASK_DELAY_MS));
     }
 }
+
