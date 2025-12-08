@@ -3,25 +3,13 @@
 
 #include <Arduino.h>
 
-#define FIRST_LED               13
-#define SECOND_LED              12
-#define ON_OFF_BUTTON_PIN       10
+#define SERIAL_BAUD 115200
 
-#define JOYSTICK_X_PIN          A0
-#define JOYSTICK_Y_PIN          A1
-#define JOYSTICK_BUTTON_PIN     9
+// Relay pin
+#define RELAY_PIN 8
 
-#define SERIAL_BAUD             115200
-
-#define BUTTON_TASK_DELAY_MS    10
-#define SINCRON_TASK_DELAY_MS   50
-#define ASINCRON_TASK_DELAY_MS  200
-
-#define JOYSTICK_RECCURENCE_MS 50
-#define REPORT_RECCURENCE_MS   500
-
-#define LED_ON_MS               300
-#define LED_OFF_MS              500
-#define LED_PRESSED_DURATION_MS 1000
+// Task delays
+#define REPORT_TASK_DELAY_MS 1000
+#define CMD_TASK_DELAY_MS    50
 
 #endif

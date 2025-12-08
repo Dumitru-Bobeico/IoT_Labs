@@ -10,7 +10,7 @@ int my_putchar(char c, FILE* f) {
 int my_getchar(FILE* f) {
     while (!Serial.available());
     char c = Serial.read();
-    Serial.write(c);
+    Serial.write(c); // echo
     return c;
 }
 
